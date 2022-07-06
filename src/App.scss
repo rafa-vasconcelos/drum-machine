@@ -1,23 +1,40 @@
 #drum-machine {
   display: flex;
   flex-direction: column;
+  @media (min-width: 600px) {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+  }
 }
 
 #display {
   display: flex;
   flex-direction: column;
-  margin: 10px 1px;
-  padding: 10vw;
+  margin: 15px 1px;
+  padding: 10vw 10vw 50vw 10vw;
   background-color: gray;
   align-self: center;
   outline: 3px solid rgb(228, 156, 23);
+  @media (min-width: 600px) {
+    display: flex;
+    flex-direction: row;
+    gap: 5px;
+    margin-top: 20vh;    
+    padding: 50px;  
+  }
 }
 
-#buttons {  
+#drum-button {  
   display: grid;
   grid-template-rows: 20vw 20vw 20vw;
   grid-template-columns: 20vw 20vw 20vw;
   gap: 10px;
+  @media (min-width: 600px) {
+    grid-template-rows: 7vw 7vw 7vw;
+    grid-template-columns: 7vw 7vw 7vw;
+    gap: 10px;
+  }
 }
 
 .drum-pad{
@@ -28,7 +45,11 @@
   line-height: 20vw;
   font-size: 4vw;
   user-select: none;
-  cursor: pointer;  
+  cursor: pointer;
+  @media (min-width: 600px) {
+    font-size: 1.2vw;
+    line-height: 7vw;
+  }  
 }
 
 .controls {
@@ -39,9 +60,15 @@
   width: 68vw;
   text-align: center;
   gap: 6vh;
+  @media (min-width: 600px) {
+    width: 20vw;
+    margin-top: -10px;   
+    padding: 5px;
+  }
+
 }
 
-.select {
+.toggle {
   margin: auto;
   margin-top: -9vh;
   border: 1px solid black;
@@ -50,15 +77,26 @@
   padding: 1px;
   background-color: black;
   cursor: pointer;
+  @media (min-width: 600px) {
+    margin-top: -4vw;
+    width: 17 * 0.15vw;
+    height: 7 * 0.15vw;
+  }
+
 }
 
-.inner-select {
+.inner-toggle {
   width: 8 * 0.8vw;
   padding: auto;
   height: 6.5 * 0.8vw;
   background: blue;
   border: 1px solid black;
   box-sizing: border-box;
+  @media (min-width: 600px) {
+    width: 8 * 0.15vw;
+    height: 6.5 * 0.15vw;
+  }
+
 }
 
 .info-screen {
@@ -69,6 +107,15 @@
   background-color: rgb(94, 91, 91);
   box-shadow: 0 0 0.2em black;
   line-height: 14vw;
+  @media (min-width: 600px) {
+    font-size: 1vw;
+    width: 55 * 0.25vw;
+    height: 14 * 0.25vw;   
+    line-height: 14 * 0.25vw;
+    margin-bottom: -20px;
+    margin-top: -20px;
+  }
+
 }
 
 input[type='range'] {
@@ -78,91 +125,18 @@ input[type='range'] {
   border: none;
   margin-bottom: -20px;
   margin-top: -25px;
+  @media (min-width: 600px) {   
+    margin-top: -40px;
+    margin-bottom: -40px 
+  }
+
 }
 
 p {
   font-size: 5vw;
-}
-
-@media (min-width: 600px) {
-
-  #drum-machine {
-    display: flex;
-    flex-direction: column;    
-  }
-
-  #display {
-    display: flex;
-    flex-direction: row;
-    gap: 5px;
-    margin-top: 20vh;
-    padding: 50px;    
-  }
-
-  #buttons {
-    grid-template-rows: 7vw 7vw 7vw;
-    grid-template-columns: 7vw 7vw 7vw;
-    gap: 10px;
-  }
-
-  .drum-pad {
-    font-size: 1.2vw;
-    line-height: 7vw;
-  }
-
-  .controls {
-    width: 20vw;
-    margin-top: -10px;
-    display: flex;
-    flex-direction: column;
-    display: flex;
-    flex-direction: column;
-    padding: 5px;
-  }
-
-  .select {
-    margin: auto;
-    margin-top: -4vw;
-    border: 1px solid black;
-    width: 17 * 0.15vw;
-    height: 7 * 0.15vw;
-    padding: 1px;
-    background-color: black;
-    cursor: pointer;
-  }
-  
-  .inner-select {
-    width: 8 * 0.15vw;
-    padding: auto;
-    height: 6.5 * 0.15vw;
-    background: blue;
-    border: 1px solid black;
-    box-sizing: border-box;
-  }
-  
-  .info-screen {
-    margin: auto;
-    font-size: 1vw;
-    width: 55 * 0.25vw;
-    height: 14 * 0.25vw;   
-    line-height: 14 * 0.25vw;
-    margin-bottom: -20px;
-    margin-top: -20px;
-  }
-  
-  input[type='range'] {
-    width: 130px;
-    margin: auto;
-    cursor: pointer;
-    border: none;
-    margin-top: -40px;
-    margin-bottom: -40px    
-  }
-  
-  p {
+  @media (min-width: 600px) {
     font-size: 1vw;
   }
-  
 }
 
 // *:not(path):not(g) {
