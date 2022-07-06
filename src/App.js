@@ -13,9 +13,20 @@ const App = () => {
 
   const [volumeValue, setVolumeValue] = React.useState(0.5);
 
-  console.log(volumeValue);
-
   // const [pressedButton, setPressedButton] = React.useState(false)
+
+  const sounds = React.useMemo(() => {
+    const newArray = [];
+    for (let i = 0; i < currentBank.length; i++) {
+      newArray.push(new Audio(currentBank[i].url));
+    }
+    newArray.map((item) => (item.volume = volumeValue));
+    return newArray;
+  }, [currentBank, volumeValue]);
+
+  // React.useEffect(() => {
+  //   sounds.forEach.volume((item) => item.volume(volumeValue));
+  // }, [volumeValue]);
 
   const updateDisplay = (event, displayInfo) => {
     const id = event.target.id;
@@ -46,14 +57,6 @@ const App = () => {
     //   document.getElementById("myRange").disabled = true;
     // }
   };
-
-  const sounds = React.useMemo(() => {
-    const newArray = [];
-    for (let i = 0; i < currentBank.length; i++) {
-      newArray.push(new Audio(currentBank[i].url));
-    }
-    return newArray;
-  }, [currentBank]);
 
   const handleKeyPress = (event) => {
     if (power) {

@@ -6,14 +6,16 @@ const Drumpad = (props) => {
     bank: PropTypes.array,
     power: PropTypes.bool,
     updateDisplay: PropTypes.func,
+    volumeValue: PropTypes.number,
   };
 
   const { bank } = props;
 
-  const soundSample = React.useMemo(
-    () => new Audio(props.bank.url),
-    [props.bank]
-  );
+  const soundSample = React.useMemo(() => {
+    const soundSample = new Audio(props.bank.url);
+    soundSample.volume = props.volumeValue;
+    return soundSample;
+  }, [props.bank, props.volumeValue]);
 
   const playSound = () => {
     soundSample.currentTime = 0;
