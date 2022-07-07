@@ -7,6 +7,9 @@ const Drumpad = (props) => {
     power: PropTypes.bool,
     updateDisplay: PropTypes.func,
     volumeValue: PropTypes.number,
+    handleKeyPress: PropTypes.func,
+    pressedButton: PropTypes.object,
+    handleClick: PropTypes.func,
   };
 
   const { bank } = props;
@@ -24,65 +27,45 @@ const Drumpad = (props) => {
     }
   };
 
-  // const pauseSound = () => {
-  //   if (!props.power) {
-  //     soundSample.currentTime = 0;
-  //     soundSample.pause();
-  //   }
-  // };
-
-  const handleKeyPress = (event) => {
-    if (
-      event.key === bank.keyTrigger.toLowerCase() ||
-      event.key === bank.keyTrigger
-    ) {
-      playSound();
-      props.updateDisplay(event, bank.id);
-    }
-  };
-
   React.useEffect(() => {
     if (props.power === false) {
       soundSample.pause();
     }
   }, [props.power]);
 
-  // React.useEffect(() => {
-  //   const sound = document.getElementsByClassName(props.bank.id)[0];
-  //   sound.currentTime = 0;
-  //   if (props.power === true) {
-  //     document.addEventListener("keydown", handleKeyPress);
-  //   }
-  //   return function cleanup() {
-  //     document.removeEventListener("keydown", handleKeyPress);
-  //   };
-  // }, [props.bank, props.power]);
-
-  // React.useEffect(() => {
-  //   document.getElementsByClassName(props.bank.id)[0].volume =
-  //     props.volumeValue.toString();
-  // }, [props.volumeValue, props.bank]);
+  const styles = (() => {
+    if (props.power && props.pressedButton[bank.keyTrigger]) {
+      return {
+        backgroundColor: "orange",
+        marginTop: "2px",
+        marginLeft: "2px",
+        boxShadow: "none",
+      };
+    } else if (props.pressedButton[bank.keyTrigger]) {
+      return {
+        marginTop: "2px",
+        marginLeft: "2px",
+        boxShadow: "none",
+      };
+    }
+  })();
 
   return (
     <div
+      style={styles}
       className="drum-pad"
       onClick={(event) => {
         props.updateDisplay(event);
         playSound();
+        props.handleClick(event, bank.id, bank.keyTrigger);
       }}
       id={bank.id}
       key={bank.id}
       src={bank.url}
-      onKeyDown={handleKeyPress}
-      // tabIndex={"0"}
+      onKeyDown={props.handleKeyPress}
     >
-      <audio
-        className={bank.id + " clip"}
-        id={bank.keyTrigger}
-        // onKeyDown={handleKeyPress}
-        // tabIndex="0"
-      >
-        <source src={bank.url} /* onKeyDown={handleKeyPress} tabIndex="0" */ />
+      <audio className={bank.id + " clip"} id={bank.keyTrigger}>
+        <source src={bank.url} />
       </audio>
       {bank.keyTrigger}
     </div>

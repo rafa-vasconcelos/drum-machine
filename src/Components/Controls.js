@@ -25,7 +25,6 @@ const Controls = (props) => {
       <div className="info-screen">{props.display.replace(/-/g, " ")}</div>
       <p id="volume">Volume</p>
       <input
-        tabIndex={1}
         id="myRange"
         type="range"
         max="1"

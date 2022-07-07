@@ -13,27 +13,39 @@ const App = () => {
 
   const [volumeValue, setVolumeValue] = React.useState(0.5);
 
-  // const [pressedButton, setPressedButton] = React.useState(false)
+  const [pressedButton, setPressedButton] = React.useState({
+    Q: false,
+    W: false,
+    E: false,
+    A: false,
+    S: false,
+    D: false,
+    Z: false,
+    X: false,
+    C: false,
+  });
 
   const sounds = React.useMemo(() => {
     const newArray = [];
     for (let i = 0; i < currentBank.length; i++) {
       newArray.push(new Audio(currentBank[i].url));
     }
-    newArray.map((item) => (item.volume = volumeValue));
+    newArray.forEach((item) => (item.volume = volumeValue));
     return newArray;
   }, [currentBank, volumeValue]);
 
-  // React.useEffect(() => {
-  //   sounds.forEach.volume((item) => item.volume(volumeValue));
-  // }, [volumeValue]);
+  React.useEffect(() => {
+    if (!power) {
+      for (let i = 0; i < currentBank.length; i++) {
+        sounds[i].pause();
+      }
+    }
+  }, [power]);
 
-  const updateDisplay = (event, displayInfo) => {
+  const updateDisplay = (event) => {
     const id = event.target.id;
     if (power && event.type === "click") {
       setDisplay(id);
-    } else if (power && event.type === "keydown") {
-      setDisplay(displayInfo);
     }
   };
 
@@ -51,11 +63,6 @@ const App = () => {
   const changePower = () => {
     setPower((prevPower) => !prevPower);
     setDisplay("");
-    // if (power === false) {
-    //   document.getElementById("myRange").disabled = false;
-    // } else if (power === true) {
-    //   document.getElementById("myRange").disabled = true;
-    // }
   };
 
   const handleKeyPress = (event) => {
@@ -68,18 +75,58 @@ const App = () => {
           sounds[i].currentTime = 0;
           sounds[i].play();
           setDisplay(currentBank[i].id);
+          setPressedButton((prevState) => ({
+            ...prevState,
+            [currentBank[i].keyTrigger]: !prevState[currentBank[i].keyTrigger],
+          }));
+          setTimeout(
+            () =>
+              setPressedButton((prevState) => ({
+                ...prevState,
+                [currentBank[i].keyTrigger]:
+                  !prevState[currentBank[i].keyTrigger],
+              })),
+            100
+          );
+        }
+      }
+    } else if (!power) {
+      for (let i = 0; i < currentBank.length; i++) {
+        if (
+          event.key === currentBank[i].keyTrigger ||
+          event.key === currentBank[i].keyTrigger.toLowerCase()
+        ) {
+          setPressedButton((prevState) => ({
+            ...prevState,
+            [currentBank[i].keyTrigger]: !prevState[currentBank[i].keyTrigger],
+          }));
+          setTimeout(
+            () =>
+              setPressedButton((prevState) => ({
+                ...prevState,
+                [currentBank[i].keyTrigger]:
+                  !prevState[currentBank[i].keyTrigger],
+              })),
+            100
+          );
         }
       }
     }
   };
 
-  React.useEffect(() => {
-    if (!power) {
-      for (let i = 0; i < currentBank.length; i++) {
-        sounds[i].pause();
-      }
+  const handleClick = (event, bankId, keyTrigger) => {
+    const id = event.target.id;
+    if (id === bankId) {
+      setPressedButton((prevState) => {
+        return { ...prevState, [keyTrigger]: !prevState[keyTrigger] };
+      });
+      setTimeout(() => {
+        setPressedButton((prevState) => {
+          return { ...prevState, [keyTrigger]: !prevState[keyTrigger] };
+        });
+      }, 100);
     }
-  }, [power]);
+  };
 
   const padBank = currentBank.map((item) => {
     return (
@@ -91,12 +138,14 @@ const App = () => {
         power={power}
         display={display}
         volumeValue={volumeValue}
+        pressedButton={pressedButton}
+        handleClick={handleClick}
       />
     );
   });
 
   return (
-    <div id="drum-machine" onKeyDown={handleKeyPress} tabIndex="-2">
+    <div id="drum-machine" onKeyDown={handleKeyPress} tabIndex="-1">
       <div id="display">
         <div id="drum-button">{padBank}</div>
         <Controls
