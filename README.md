@@ -27,7 +27,7 @@ This is the final version of the app, functionality-wise. Small design improveme
 
 ## How to run this App
 
-This App was made using Create React App. A live version of it can be accessed through this [link](https://rafael-lima-vasconcelos.github.io/drum-machine/).
+This App was made using Create React App. A live version of it can be accessed through this [link](https://rafa-vasconcelos.github.io/drum-machine/).
 If you want to launch it locally using Create React App, you can run:
 
 ```
